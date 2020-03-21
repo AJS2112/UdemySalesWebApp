@@ -15,21 +15,18 @@ namespace UdemySalesWebApp.Controllers
     {
         protected ApplicationDbContext Repository;
 
-        public HomeController(ApplicationDbContext repository)
-        {
-            Repository = repository;
-        }
-
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext repository)
         {
+            Repository = repository;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Category> list = Repository.Category.ToList();
+            return View(list);
         }
 
         public IActionResult Privacy()

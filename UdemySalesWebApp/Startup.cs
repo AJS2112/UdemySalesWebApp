@@ -29,7 +29,7 @@ namespace UdemySalesWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer("Server=.;Database=StockNetCoreEF;TrustedConnection=True;MultipleActiveResultSets=true"));
+                  options.UseSqlServer("Server=.;Database=StockNetCoreEF;Trusted_Connection=True;;MultipleActiveResultSets=true"));
 
             services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
             
