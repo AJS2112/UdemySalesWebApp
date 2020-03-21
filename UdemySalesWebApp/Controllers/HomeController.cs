@@ -5,12 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using UdemySalesWebApp.DAL;
+using UdemySalesWebApp.Entities;
 using UdemySalesWebApp.Models;
 
 namespace UdemySalesWebApp.Controllers
 {
     public class HomeController : Controller
     {
+        protected ApplicationDbContext Repository;
+
+        public HomeController(ApplicationDbContext repository)
+        {
+            Repository = repository;
+        }
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)

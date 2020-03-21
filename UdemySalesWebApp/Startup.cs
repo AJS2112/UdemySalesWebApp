@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+
+
+using UdemySalesWebApp.DAL;
+using Microsoft.AspNetCore.Http;
 
 namespace UdemySalesWebApp
 {
@@ -23,6 +28,13 @@ namespace UdemySalesWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                  options.UseSqlServer("Server=.;Database=StockNetCoreEF;TrustedConnection=True;MultipleActiveResultSets=true"));
+
+            services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
+            
+            services.AddSession();
+
             services.AddControllersWithViews();
         }
 

@@ -15,6 +15,10 @@ namespace UdemySalesWebApp.DAL
         public DbSet<Sale> Sale { get; set; }
         public DbSet<SaleProducts> SaleProducts { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+            
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
