@@ -1,16 +1,45 @@
-﻿@using UdemySalesWebApp.Entities;
-@model List<Category>;
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Menu";
 }
-
-
-<div class="text-center">
-    <h1 class="display-4">List</h1>
-    @foreach (var item in Model)
-    {
-        var aux = $"{item.Codigo} - {item.Description}";
-        <span>@aux</span> <br/>
-    }
-
+<div class="row" style="text-align: center;">
+    <div class="col-md-4">
+        <div>
+            <a href="../Client/Index"><img src="~/img/client.png" width="150" height="150" /></a>
+        </div>
+        <span>Client Registration</span>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <a href="../Category/Index"><img src="~/img/category.png" width="150" height="150" /></a>
+        </div>
+        <span>Category Registration</span>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <a href="../Product/Index"><img src="~/img/product.png" width="150" height="150" /></a>
+        </div>
+        <span>Product Registration</span>
+    </div>
+</div>
+<br />
+<br />
+<div class="row" style="text-align: center;">
+    <div class="col-md-4">
+        <div>
+            <a href="../Sale/Index"><img src="~/img/sale.png" width="150" height="150" /></a>
+        </div>
+        <span>Sale Registration</span>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <a href="../Report/Graph"><img src="~/img/report.png" width="150" height="150" /></a>
+        </div>
+        <span>Reports</span>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <a href="../Configuration/Index"><img src="~/img/config.png" width="150" height="150" /></a>
+        </div>
+        <span>Configurations</span>
+    </div>
 </div>

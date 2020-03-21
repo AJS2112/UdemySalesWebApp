@@ -25,20 +25,7 @@ namespace UdemySalesWebApp.Controllers
 
         public IActionResult Index()
         {
-            //UPDATE
-            Category objCategory = Repository.Category.Where(x => x.Codigo == 1).FirstOrDefault();
-            objCategory.Description = "Drinks";
-            Repository.Entry(objCategory).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            //DELETE
-            Category objCategoryDel = Repository.Category.Where(x => x.Codigo == 2).FirstOrDefault();
-            Repository.Attach(objCategoryDel);
-            Repository.Remove(objCategoryDel);
-
-            Repository.SaveChanges();
-
-            IEnumerable<Category> list = Repository.Category.ToList();
-            return View(list);
+            return View();
         }
 
         public IActionResult Privacy()
