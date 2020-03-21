@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Categories";
+}
+
+<h2>Category</h2>
+<hr />
+@model UdemySalesWebApp.Models.CategoryViewModel;
+
+@{
+    var disabled = (Model.Codigo == null) ? "disabled" : string.Empty;
+}
+<form asp-controller="Category" asp-action="Registry" method="post">
+    <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Description</label>
+            <input type="text" asp-for="Description" value="@Model.Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger "></span>
+        </div>
+    </div>
+    <br />
+    <div class="col">
+        <button type="button" class="btn btn-info" onclick="New()">New</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-warning" onclick="List()">List</button>
+        <button type="button" class="btn btn-danger" onclick="Delete(@Model.Codigo)" @disabled>Delete</button>
+    </div>
+</form>
+
+<script>
+    function New() {
+        Request("Registry");
+    }
+    function List() {
+        Request("");
+    }
+    function Delete(Codigo) {
+        console.log(Codigo)
+        Request("Delete\\" + Codigo);
+    }
+    function Request(request) {
+        console.log(request)
+        console.log(window.location = window.origin + "\\Category\\" + request)
+        window.location = window.origin + "\\Category\\" + request;
+    }
+</script>
+

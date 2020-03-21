@@ -1,1 +1,37 @@
-﻿
+﻿@{ 
+    ViewData["Title"] = "Categories";
+}
+@model List<UdemySalesWebApp.Entities.Category>;
+
+<h2>Categories</h2>
+<hr />
+
+<table class="table table-bordered">
+    <thead>
+        <tr style="background-color:#f6f6f6">
+            <th>Código</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr onclick="Edit(@item.Codigo)" style="cursor:pointer">
+            <td>@item.Codigo</td>
+            <td>@item.Description</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<br />
+<button type="button" class="btn btn-block btn-primary" onclick="Register()">Category Registration </button> 
+
+<script>
+    function Register() {
+        window.location = window.origin + "\\Category\\Registry";
+    }
+
+    function Edit(Codigo) {
+        window.location = window.origin + "\\Category\\Registry\\" + Codigo;
+    }
+</script>
