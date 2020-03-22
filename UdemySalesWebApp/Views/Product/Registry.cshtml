@@ -1,1 +1,75 @@
 ﻿
+@{
+    ViewData["Title"] = "Product";
+}
+
+    <h2>Product</h2>
+<hr />
+@model UdemySalesWebApp.Models.ProductViewModel;
+
+@{
+    var disabled = (Model.Codigo == null) ? "disabled" : string.Empty;
+}
+<form asp-controller="Product" asp-action="Registry" method="post">
+    <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Description</label>
+            <input type="text" asp-for="Description" value="@Model.Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Quantity</label>
+            <input type="number" asp-for="Quantity" value="@Model.Quantity" class="form-control" />
+            <span asp-validation-for="Quantity" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Price</label>
+            <input type="text" asp-for="Price" value="@Model.Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Category</label>
+            <!--
+                
+            <input type="hidden" asp-for="CodigoCategory" value="@Model.CodigoCategory" class="form-control" />
+            -->
+    
+            <select asp-for="CodigoCategory" class="form-control input-group-lg" asp-items="@Model.CategoryList"></select>
+            <span asp-validation-for="CodigoCategory" class="text-danger "></span>
+        </div>
+    </div>
+
+    <br />
+    <div class="col">
+        <button type="button" class="btn btn-info" onclick="New()">New</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-warning" onclick="List()">List</button>
+        <button type="button" class="btn btn-danger" onclick="Delete(@Model.Codigo)" @disabled>Delete</button>
+    </div>
+</form>
+
+<script>
+    function New() {
+        Request("Registry");
+    }
+    function List() {
+        Request("");
+    }
+    function Delete(Codigo) {
+        console.log(Codigo)
+        Request("Delete\\" + Codigo);
+    }
+    function Request(request) {
+        window.location = window.origin + "\\Product\\" + request;
+    }
+</script>
+
+
