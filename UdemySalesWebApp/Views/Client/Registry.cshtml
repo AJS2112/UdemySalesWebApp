@@ -1,1 +1,69 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Client";
+}
+
+<h2>Client</h2>
+<hr />
+@model UdemySalesWebApp.Models.ClientViewModel;
+
+@{
+    var disabled = (Model.Codigo == null) ? "disabled" : string.Empty;
+}
+<form asp-controller="Client" asp-action="Registry" method="post">
+    <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Name</label>
+            <input type="text" asp-for="Name" value="@Model.Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Document Number</label>
+            <input type="text" asp-for="DocumentNumber" value="@Model.DocumentNumber" class="form-control" />
+            <span asp-validation-for="DocumentNumber" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Email</label>
+            <input type="text" asp-for="Email" value="@Model.Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger "></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-4">
+            <label>Phone</label>
+            <input type="text" asp-for="Phone" value="@Model.Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="text-danger "></span>
+        </div>  
+    </div>
+
+    <br />
+    <div class="col">
+        <button type="button" class="btn btn-info" onclick="New()">New</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-warning" onclick="List()">List</button>
+        <button type="button" class="btn btn-danger" onclick="Delete(@Model.Codigo)" @disabled>Delete</button>
+    </div>
+</form>
+
+<script>
+    function New() {
+        Request("Registry");
+    }
+    function List() {
+        Request("");
+    }
+    function Delete(Codigo) {
+        console.log(Codigo)
+        Request("Delete\\" + Codigo);
+    }
+    function Request(request) {
+        window.location = window.origin + "\\Client\\" + request;
+    }
+</script>
+
+
