@@ -1,1 +1,175 @@
 ﻿
+
+@{
+    ViewData["Title"] = "Sale";
+}
+
+<h2>Product</h2>
+<hr />
+@model UdemySalesWebApp.Models.SaleViewModel;
+
+@{
+    var disabled = (Model.Codigo == null) ? "disabled" : string.Empty;
+}
+<form asp-controller="Sale" asp-action="Registry" method="post">
+    <input type="hidden" asp-for="Codigo" value="@Model.Codigo" />
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Date</label>
+            <input type="date" asp-for="Date" value="@Model.Date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger "></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Client</label>
+            <select asp-for="CodigoClient" asp-items="@Model.ClientList" class="form-control input-group-lg"></select>
+            <span asp-validation-for="CodigoClient" class="text-danger "></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-4">
+            <label>Products</label>
+            <select id="dlProduct" onchange="FindProductPrice()" asp-items="@Model.ProductList" class="form-control input-group-lg"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-2">
+            <label>Unit Price</label>
+            <input id="txtUnitPrice" type="number" class="form-control" disabled />
+        </div>
+        <div class="col-2">
+            <label>Quantity</label>
+            <input id="txtQuantity" type="number" class="form-control" onchange="CalculateSubTotal()" />
+        </div>
+        <div class="col-2">
+            <label>SubTotal</label>
+            <input id="txtSubTotal" type="number" class="form-control" disabled />
+        </div>
+        <div class="col-2">
+            <br />
+            <button type="button" class="btn btn-info" onclick="AddProduct()">Add</button>
+            <br />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead class="thread-inverse">
+                    <tr style="background-color:#f6f6f6;">
+                        <th>Product</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>SubTotal</th>
+                    </tr>
+                </thead>
+                <tbody id="gridProducts">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Total</label>
+            <input class="form-control" id="txtTotal" asp-for="Total" type="text" value="@Model.Total" />
+            <span asp-validation-for="Total" class="text-danger"></span>
+        </div>
+    </div>
+
+    <textarea asp-for="JsonProducts" id="txtJsonProducts" class="col" style="display:none;"></textarea> 
+    <br />
+    <div class="col">
+        <button type="button" class="btn btn-info" onclick="New()">New</button>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button type="button" class="btn btn-warning" onclick="List()">List</button>
+        <button type="button" class="btn btn-danger" onclick="Delete(@Model.Codigo)" @disabled>Delete</button>
+    </div>
+</form>
+
+<script>
+    var Items = new Object();
+    Items.Products = new Array();
+    var gridProducts = document.getElementById("gridProducts");
+    
+    function FixDecimalNumber(num) {
+        return parseFloat(Math.round(num * 100) / 100).toFixed(2);
+    }
+
+    function AddProduct() {
+        var CodigoProduct = document.getElementById("dlProduct");
+        var Quantity = document.getElementById("txtQuantity").value;
+        var UnitPrice = document.getElementById("txtUnitPrice").value;
+        var SubTotal = document.getElementById("txtSubTotal").value;
+
+        Items.Products.push({
+            "CodigoProduct": CodigoProduct.value,
+            "Quantity": Quantity,
+            "PriceUnit": UnitPrice,
+            "Total": SubTotal
+        });
+
+        document.getElementById("txtJsonProducts").value = JSON.stringify(Items.Products);
+
+        var gridLine =
+            "<tr id='" + CodigoProduct.value + "'>" +
+            "<td>" + CodigoProduct.options[CodigoProduct.selectedIndex].text + "</td>" +
+            "<td>" + UnitPrice  + "</td>" +
+            "<td>" + Quantity + "</td>" +
+            "<td>" + SubTotal + "</td>" +
+            "</tr>";
+
+        console.log(gridLine)
+        gridProducts.innerHTML += gridLine;
+
+        var total = Number(document.getElementById("txtTotal").value.toString().replace(",", ".")) +
+            Number(SubTotal);
+        document.getElementById("txtTotal").value = FixDecimalNumber(total).replace(".",",");   
+
+        document.getElementById("txtQuantity").value = "";
+        document.getElementById("txtUnitPrice").value = "";
+        document.getElementById("txtSubTotal").value = "";
+        document.getElementById("dlProduct").selectedIndex = -1;
+    }
+
+    function CalculateSubTotal() {
+        var UnitPrice = document.getElementById("txtUnitPrice").value;
+        var SubTotal = UnitPrice * document.getElementById("txtQuantity").value;
+        document.getElementById("txtSubTotal").value = SubTotal;
+    }
+
+    function FindProductPrice() {
+        var CodigoProduct = document.getElementById("dlProduct").value;
+        var url = `/ReadProductPrice/${CodigoProduct}`;
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                document.getElementById("txtUnitPrice").value = xhr.responseText;
+                console.log(xhr.responseText)
+            }
+        }
+
+        xhr.open('GET', url, false);
+        xhr.send(null);
+    }
+    function New() {
+        Request("Registry");
+    }
+    function List() {
+        Request("");
+    }
+    function Delete(Codigo) {
+        console.log(Codigo)
+        Request("Delete\\" + Codigo);
+    }
+    function Request(request) {
+        window.location = window.origin + "\\Sale\\" + request;
+    }
+</script>
+
+
