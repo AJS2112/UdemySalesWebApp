@@ -1,4 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContext;
+
+@{ 
+    var logged = 0;
+    var userName = string.Empty;
+    try
+    {
+        logged = (int)HttpContext.HttpContext.Session.GetInt32(UdemySalesWebApp.Helpers.Session.USER_LOGGED);
+        if (logged == 1)
+        {
+            userName= HttpContext.HttpContext.Session.GetString(UdemySalesWebApp.Helpers.Session.USER_NAME);
+        }
+    }
+    catch (Exception)
+    {
+        HttpContext.HttpContext.Response.Redirect("/Login");
+        throw;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,7 +32,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/logo.png" height="30"/>
+                    <img src="~/img/logo.png" height="30" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +47,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                </div>
+                <div>   
+                    Hi @userName! <a href="~/Login/Index/0">(logout)</a>
                 </div>
             </div>
         </nav>

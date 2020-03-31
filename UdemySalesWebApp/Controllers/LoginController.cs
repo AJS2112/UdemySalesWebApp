@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UdemySalesWebApp.DAL;
 using UdemySalesWebApp.Helpers;
@@ -12,13 +13,22 @@ namespace UdemySalesWebApp.Controllers
     public class LoginController : Controller
     {
         protected ApplicationDbContext mContext;
+        protected IHttpContextAccessor HttpContextAccessor;
         
-        public LoginController(ApplicationDbContext context)
+        public LoginController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             mContext = context;
+            HttpContextAccessor = httpContextAccessor;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? logoff)
         {
+            if (logoff != null)
+            {
+                if (logoff == 0)
+                {
+                    HttpContextAccessor.HttpContext.Session.Clear();
+                }
+            }
             return View();
         }
 
@@ -37,6 +47,11 @@ namespace UdemySalesWebApp.Controllers
                     return View(model);
                 } else
                 {
+                    HttpContextAccessor.HttpContext.Session.SetString(Session.USER_NAME, usuario.Name);
+                    HttpContextAccessor.HttpContext.Session.SetString(Session.USER_EMAIL, usuario.Email);
+                    HttpContextAccessor.HttpContext.Session.SetInt32(Session.USER_CODIGO, (int)usuario.Codigo);
+                    HttpContextAccessor.HttpContext.Session.SetInt32(Session.USER_LOGGED, 1);
+
                     ViewData["ErrorLogin"] = "";
                     return RedirectToAction("Index", "Home");
                 }

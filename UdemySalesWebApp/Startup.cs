@@ -32,7 +32,9 @@ namespace UdemySalesWebApp
                   options.UseSqlServer("Server=.;Database=StockNetCoreEF;Trusted_Connection=True;;MultipleActiveResultSets=true"));
 
             services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
-            
+
+            services.AddHttpContextAccessor();
+
             services.AddSession();
 
             services.AddControllersWithViews();
@@ -53,7 +55,7 @@ namespace UdemySalesWebApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
