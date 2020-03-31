@@ -14,7 +14,7 @@ namespace UdemySalesWebApp.DAL
         public DbSet<Product> Product { get; set; }
         public DbSet<Sale> Sale { get; set; }
         public DbSet<SaleProducts> SaleProducts { get; set; }
-
+        public DbSet<User> Users { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             

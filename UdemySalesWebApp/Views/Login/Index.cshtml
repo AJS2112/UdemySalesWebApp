@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+@model UdemySalesWebApp.Models.LoginViewModel;
+
+<link href="~/css/login_template.css" rel="stylesheet" />
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first" style="padding:10px;">
+            <img src="~/img/logo.png" id="icon" alt="Logo" />
+        </div>
+        <!-- Login Form -->
+        <form asp-controller="Login" asp-action="Index" method="post">
+            <input asp-for="Email" type="text" class="fadeIn second" placeholder="Email">
+            <span asp-validation-for="Email" style="color:red;"></span>
+            <input asp-for="Password" type="password" class="fadeIn third" placeholder="Password">
+            <span asp-validation-for="Password" style="color:red;"></span>
+            <br/>
+            <input type="submit" class="fadeIn fourth" value="Log In">
+            <br/>
+            <span style="color: red;">@ViewData["ErrorLogin"]</span>
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+        </div>
+
+    </div>
+</div>
+
