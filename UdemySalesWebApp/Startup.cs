@@ -13,6 +13,10 @@ using Microsoft.EntityFrameworkCore;
 
 using UdemySalesWebApp.DAL;
 using Microsoft.AspNetCore.Http;
+using Application.Services.Interfaces;
+using Application.Services;
+using UdemySalesWebApp.Domain.Interfaces;
+using UdemySalesWebApp.Domain.Services;
 
 namespace UdemySalesWebApp
 {
@@ -36,6 +40,12 @@ namespace UdemySalesWebApp
             services.AddHttpContextAccessor();
 
             services.AddSession();
+
+            //APP
+            services.AddScoped<ICategoryServiceApp, CategoryServiceApp>();
+
+            //DOMAIN
+            services.AddScoped<ICategoryService, CategoryService>();
 
             services.AddControllersWithViews();
         }

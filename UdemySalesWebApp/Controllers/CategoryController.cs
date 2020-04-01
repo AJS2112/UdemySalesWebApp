@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UdemySalesWebApp.DAL;
@@ -12,20 +13,20 @@ namespace UdemySalesWebApp.Controllers
 {
     public class CategoryController : Controller
     {
-        protected ApplicationDbContext mContext;
-
-        public CategoryController(ApplicationDbContext context)
+        readonly ICategoryServiceApp CategoryServiceApp;
+        public CategoryController(ICategoryServiceApp categoryServiceApp, ApplicationDbContext context)
         {
-            mContext = context;
+            CategoryServiceApp = categoryServiceApp;
         }
         public IActionResult Index()
         {
-            IEnumerable<Category> list = mContext.Category.ToList();
+            /*
+            IEnumerable<CategoryViewModel> list = mContext.Category.ToList();
             mContext.Dispose();
-
-            return View(list);
+            */
+            return View(CategoryServiceApp.GetAll());
         }
-
+        /*
         [HttpGet]
         public IActionResult Registry(int? id)
         {
@@ -76,5 +77,6 @@ namespace UdemySalesWebApp.Controllers
             mContext.SaveChanges();
             return RedirectToAction("Index");
         }
+        */
     }
 }
