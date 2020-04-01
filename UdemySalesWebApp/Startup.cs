@@ -29,9 +29,9 @@ namespace UdemySalesWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer("Server=.;Database=StockNetCoreEF;Trusted_Connection=True;;MultipleActiveResultSets=true"));
+                  options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
 
-            services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
+            //services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 
             services.AddHttpContextAccessor();
 
@@ -49,7 +49,7 @@ namespace UdemySalesWebApp
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
