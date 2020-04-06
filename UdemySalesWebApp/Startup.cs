@@ -17,6 +17,8 @@ using Application.Services.Interfaces;
 using Application.Services;
 using UdemySalesWebApp.Domain.Interfaces;
 using UdemySalesWebApp.Domain.Services;
+using Domain.Repository;
+using Repository.Entitites;
 
 namespace UdemySalesWebApp
 {
@@ -46,6 +48,13 @@ namespace UdemySalesWebApp
 
             //DOMAIN
             services.AddScoped<ICategoryService, CategoryService>();
+
+            //REPOSITORY
+            services.AddDbContext<Repository.Context.ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+
 
             services.AddControllersWithViews();
         }
