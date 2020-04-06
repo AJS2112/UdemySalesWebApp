@@ -9,7 +9,7 @@ using UdemySalesWebApp.Domain.Entities;
 namespace Repository
 {
     public abstract class Repository<T> : DbContext, IRepository<T>
-        where T : class, new()
+        where T : EntityBase, new()
     {
         DbContext Db;
         DbSet<T> DbSetContext;
@@ -21,7 +21,10 @@ namespace Repository
         }
         public void DelOne(int id)
         {
-            throw new NotImplementedException();
+            var ent = new T { Codigo = id };
+            DbSetContext.Attach(ent);
+            DbSetContext.Remove(ent);
+            Db.SaveChanges();
         }
 
         public IEnumerable<T> GetAll()
@@ -31,12 +34,20 @@ namespace Repository
 
         public T GetOne(int id)
         {
-            throw new NotImplementedException();
+            return DbSetContext.Where(x => x.Codigo == id).FirstOrDefault();
         }
 
         public void SetOne(T entity)
         {
-            throw new NotImplementedException();
+            if(entity.Codigo == null)
+            {
+                DbSetContext.Add(entity);
+            }
+            else
+            {
+                Db.Entry(entity).State = EntityState.Modified;
+            }
+            Db.SaveChanges();
         }
     }
 }

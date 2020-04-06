@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace UdemySalesWebApp.Domain.Entities
 {
-    public class User
+    public class User : EntityBase
     {
-        [Key]
-        public int? Codigo { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

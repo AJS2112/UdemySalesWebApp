@@ -9,7 +9,7 @@ namespace UdemySalesWebApp.Domain.Interfaces
     {
         IEnumerable<Category> GetAll();
         Category GetOne(int id);
-        void Save(Category category);
-        void Delete(int id);
+        void SetOne(Category category);
+        void DelOne(int id);
     }
 }

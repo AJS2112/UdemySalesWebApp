@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace UdemySalesWebApp.Domain.Entities
 {
-    public class Sale
+    public class Sale : EntityBase
     {
-        [Key]
-        public int? Codigo { get; set; }
         public DateTime Date { get; set; }
         
         [ForeignKey("Client")]

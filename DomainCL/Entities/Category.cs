@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace UdemySalesWebApp.Domain.Entities
 {
-    public class Category
+    public class Category : EntityBase
     {
-        [Key]
-        public int? Codigo { get; set; }
         public string Description { get; set; }
 
         public ICollection<Product> Products { get; set; }

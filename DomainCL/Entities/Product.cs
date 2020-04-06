@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace UdemySalesWebApp.Domain.Entities
 {
-    public class Product
+    public class Product : EntityBase
     {
-        [Key]
-        public int? Codigo { get; set; }
         public string Description { get; set; }
         public double Quantity { get; set; }
         public decimal Price { get; set; }

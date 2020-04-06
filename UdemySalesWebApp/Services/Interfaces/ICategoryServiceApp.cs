@@ -8,6 +8,11 @@ namespace Application.Services.Interfaces
 {
     public interface ICategoryServiceApp
     {
-        IEnumerable<CategoryViewModel> GetAll(); 
+        IEnumerable<CategoryViewModel> GetAll();
+
+        CategoryViewModel GetOne(int id);
+
+        void SetOne(CategoryViewModel category);
+        void DelOne(int id);
     }
 }

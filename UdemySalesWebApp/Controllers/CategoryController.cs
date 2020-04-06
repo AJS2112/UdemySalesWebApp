@@ -20,46 +20,26 @@ namespace UdemySalesWebApp.Controllers
         }
         public IActionResult Index()
         {
-            /*
-            IEnumerable<CategoryViewModel> list = mContext.Category.ToList();
-            mContext.Dispose();
-            */
             return View(CategoryServiceApp.GetAll());
         }
-        /*
+
         [HttpGet]
         public IActionResult Registry(int? id)
         {
             CategoryViewModel viewModel = new CategoryViewModel();
-
             if (id != null)
             {
-                var entity = mContext.Category.Where(x => x.Codigo == id).FirstOrDefault();
-                viewModel.Codigo = entity.Codigo;
-                viewModel.Description = entity.Description;
-
+                viewModel = CategoryServiceApp.GetOne((int)id);
             }
             return View(viewModel);
         }
+
         [HttpPost]
         public IActionResult Registry(CategoryViewModel entity)
         {
             if (ModelState.IsValid)
             {
-                Category objCategory = new Category()
-                {
-                    Codigo = entity.Codigo,
-                    Description = entity.Description
-                };
-
-                if (entity.Codigo == null)
-                {
-                    mContext.Category.Add(objCategory);
-                } else
-                {
-                    mContext.Entry(objCategory).State = EntityState.Modified;
-                }
-                mContext.SaveChanges();
+                CategoryServiceApp.SetOne(entity);
             }
             else
             {
@@ -71,12 +51,9 @@ namespace UdemySalesWebApp.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var ent = new Category() { Codigo = id};
-            mContext.Attach(ent);
-            mContext.Remove(ent);
-            mContext.SaveChanges();
+            CategoryServiceApp.DelOne(id);
             return RedirectToAction("Index");
         }
-        */
+
     }
 }

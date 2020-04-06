@@ -14,9 +14,9 @@ namespace UdemySalesWebApp.Domain.Services
         {
             CategoryRepository = categoryRepository;
         }
-        public void Delete(int id)
+        public void DelOne(int id)
         {
-            throw new NotImplementedException();
+            CategoryRepository.DelOne(id);
         }
 
         public IEnumerable<Category> GetAll()
@@ -26,12 +26,12 @@ namespace UdemySalesWebApp.Domain.Services
 
         public Entities.Category GetOne(int id)
         {
-            throw new NotImplementedException();
+            return CategoryRepository.GetOne(id);
         }
 
-        public void Save(Entities.Category category)
+        public void SetOne(Entities.Category category)
         {
-            throw new NotImplementedException();
+            CategoryRepository.SetOne(category);
         }
     }
 }
