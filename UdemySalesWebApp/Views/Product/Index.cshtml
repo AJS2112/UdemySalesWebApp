@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Products";
 }
-@model List<UdemySalesWebApp.Entities.Product>;
+@model List<UdemySalesWebApp.Models.ProductViewModel>;
 
     <h2>Products</h2>
 <hr />
@@ -24,7 +24,7 @@
                 <td>@item.Description</td>
                 <td>@item.Quantity</td>
                 <td>@item.Price</td>
-                <td>@item.Category.Description</td>
+                <td>@item.CategoryDescription</td>
             </tr>
         }
     </tbody>

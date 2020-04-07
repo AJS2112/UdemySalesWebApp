@@ -20,5 +20,7 @@ namespace UdemySalesWebApp.Models
         [Required(ErrorMessage = "The Product Category is Required!")]
         public int? CodigoCategory { get; set; }
         public IEnumerable<SelectListItem> CategoryList { get; set; }
+        public string CategoryDescription { get; set; }
+
     }
 }

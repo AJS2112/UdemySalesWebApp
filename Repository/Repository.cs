@@ -11,8 +11,8 @@ namespace Repository
     public abstract class Repository<T> : DbContext, IRepository<T>
         where T : EntityBase, new()
     {
-        DbContext Db;
-        DbSet<T> DbSetContext;
+        protected DbContext Db;
+        protected DbSet<T> DbSetContext;
 
         public Repository(DbContext dbContext)
         {
@@ -27,7 +27,7 @@ namespace Repository
             Db.SaveChanges();
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return DbSetContext.AsNoTracking().ToList();
         }
