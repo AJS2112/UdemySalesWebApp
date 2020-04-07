@@ -7,10 +7,10 @@ using Domain.Repository;
 
 namespace UdemySalesWebApp.Domain.Services
 {
-    public class CategoryService : ICategoryService
+    public class ClientService : IClientService
     {
-        ICategoryRepository Repository;
-        public CategoryService(ICategoryRepository repository)
+        IClientRepository Repository;
+        public ClientService(IClientRepository repository)
         {
             Repository = repository;
         }
@@ -19,17 +19,17 @@ namespace UdemySalesWebApp.Domain.Services
             Repository.DelOne(id);
         }
 
-        public IEnumerable<Category> GetAll()
+        public IEnumerable<Client> GetAll()
         {
             return Repository.GetAll();
         }
 
-        public Entities.Category GetOne(int id)
+        public Entities.Client GetOne(int id)
         {
             return Repository.GetOne(id);
         }
 
-        public void SetOne(Entities.Category one)
+        public void SetOne(Entities.Client one)
         {
             Repository.SetOne(one);
         }

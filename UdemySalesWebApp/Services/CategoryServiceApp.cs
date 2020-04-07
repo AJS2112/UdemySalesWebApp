@@ -11,58 +11,58 @@ namespace Application.Services
 {
     public class CategoryServiceApp : ICategoryServiceApp
     {
-        private readonly ICategoryService CategoryService;
+        private readonly ICategoryService Service;
 
-        public CategoryServiceApp(ICategoryService categoryService)
+        public CategoryServiceApp(ICategoryService service)
         {
-            CategoryService = categoryService;
+            Service = service;
         }
 
         public void DelOne(int id)
         {
-            CategoryService.DelOne(id);
+            Service.DelOne(id);
         }
 
         public IEnumerable<CategoryViewModel> GetAll()
         {
-            List<CategoryViewModel> listCategory = new List<CategoryViewModel>();
-            var list = CategoryService.GetAll();
+            List<CategoryViewModel> listEntity = new List<CategoryViewModel>();
+            var list = Service.GetAll();
             foreach (var item in list)
             {
-                CategoryViewModel category = new CategoryViewModel()
+                CategoryViewModel one = new CategoryViewModel()
                 {
                     Codigo = item.Codigo,
                     Description = item.Description
                 };
 
-                listCategory.Add(category);
+                listEntity.Add(one);
 
             }
 
-            return listCategory;
+            return listEntity;
         }
 
         public CategoryViewModel GetOne(int id)
         {
-            var record = CategoryService.GetOne(id);
+            var record = Service.GetOne(id);
 
-            CategoryViewModel category = new CategoryViewModel()
+            CategoryViewModel one = new CategoryViewModel()
             {
                 Codigo = record.Codigo,
                 Description = record.Description
             };
 
-            return category;
+            return one;
         }
 
-        public void SetOne(CategoryViewModel categoryVM)
+        public void SetOne(CategoryViewModel oneVM)
         {
-            Category category = new Category()
+            Category one = new Category()
             {
-                Codigo = categoryVM.Codigo,
-                Description = categoryVM.Description
+                Codigo = oneVM.Codigo,
+                Description = oneVM.Description
             };
-            CategoryService.SetOne(category);
+            Service.SetOne(one);
         }
     }
 }

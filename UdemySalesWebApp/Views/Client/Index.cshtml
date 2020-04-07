@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Clients";
 }
-@model List<UdemySalesWebApp.Entities.Client>;
+@model List<UdemySalesWebApp.Models.ClientViewModel>;
 
 <h2>Clients</h2>
 <hr />
@@ -30,7 +30,7 @@
     </tbody>
 </table>
 <br />
-<button type="button" class="btn btn-block btn-primary" onclick="Register()">Category Registration </button>
+<button type="button" class="btn btn-block btn-primary" onclick="Register()">Client Registration </button>
 
 <script>
     function Register() {

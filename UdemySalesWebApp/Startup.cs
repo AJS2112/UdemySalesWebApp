@@ -45,14 +45,16 @@ namespace UdemySalesWebApp
 
             //APP
             services.AddScoped<ICategoryServiceApp, CategoryServiceApp>();
-
+            services.AddScoped<IClientServiceApp, ClientServiceApp>();
             //DOMAIN
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IClientService, ClientService>();
 
             //REPOSITORY
             services.AddDbContext<Repository.Context.ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
 
 

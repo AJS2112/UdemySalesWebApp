@@ -6,7 +6,7 @@ using UdemySalesWebApp.Domain.Entities;
 
 namespace UdemySalesWebApp.Domain.Interfaces
 {
-    public interface ICategoryService :ICRUDService<Category>
+    public interface IClientService :ICRUDService<Client>
     {
         
     }

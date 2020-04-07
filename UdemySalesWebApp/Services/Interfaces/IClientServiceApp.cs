@@ -6,13 +6,13 @@ using UdemySalesWebApp.Models;
 
 namespace Application.Services.Interfaces
 {
-    public interface ICategoryServiceApp
+    public interface IClientServiceApp
     {
-        IEnumerable<CategoryViewModel> GetAll();
+        IEnumerable<ClientViewModel> GetAll();
 
-        CategoryViewModel GetOne(int id);
+        ClientViewModel GetOne(int id);
 
-        void SetOne(CategoryViewModel one);
+        void SetOne(ClientViewModel one);
 
         void DelOne(int id);
     }
