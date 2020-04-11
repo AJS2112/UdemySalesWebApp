@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
 
-using UdemySalesWebApp.DAL;
 using Microsoft.AspNetCore.Http;
 using Application.Services.Interfaces;
 using Application.Services;
@@ -19,6 +18,7 @@ using UdemySalesWebApp.Domain.Interfaces;
 using UdemySalesWebApp.Domain.Services;
 using Domain.Repository;
 using Repository.Entitites;
+using Repository.Context;
 
 namespace UdemySalesWebApp
 {
@@ -34,8 +34,8 @@ namespace UdemySalesWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //      options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
 
             //services.AddSingleton<HttpContextAccessor, HttpContextAccessor>();
 
@@ -48,20 +48,24 @@ namespace UdemySalesWebApp
             services.AddScoped<IClientServiceApp, ClientServiceApp>();
             services.AddScoped<IProductServiceApp, ProductServiceApp>();
             services.AddScoped<ISaleServiceApp, SaleServiceApp>();
+            services.AddScoped<IUserServiceApp, UserServiceApp>();
 
             //DOMAIN
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ISaleService, SaleService>();
+            services.AddScoped<IUserService, UserService>();
 
             //REPOSITORY
-            services.AddDbContext<Repository.Context.ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MyStock")));
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
+            services.AddScoped<ISaleProductsRepository, SaleProductsRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
 
 

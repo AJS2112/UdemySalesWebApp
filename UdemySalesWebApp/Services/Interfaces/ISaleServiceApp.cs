@@ -8,8 +8,9 @@ using UdemySalesWebApp.Models;
 namespace Application.Services.Interfaces
 {
     public interface ISaleServiceApp
-    {
+    { 
         IEnumerable<SaleViewModel> GetAll();
+        IEnumerable<ReportViewModel> GetProductsTotals();
 
         SaleViewModel GetOne(int id);
 

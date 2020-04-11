@@ -6,8 +6,6 @@ using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using UdemySalesWebApp.DAL;
-using UdemySalesWebApp.Entities;
 using UdemySalesWebApp.Models;
 
 namespace UdemySalesWebApp.Controllers

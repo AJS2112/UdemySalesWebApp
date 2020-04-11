@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UdemySalesWebApp.Domain.Entities;
 using UdemySalesWebApp.Domain.Interfaces;
+using UdemySalesWebApp.Domain.Services;
 using UdemySalesWebApp.Models;
 
 namespace Application.Services
@@ -58,6 +59,23 @@ namespace Application.Services
             };
 
             return one;
+        }
+
+        public IEnumerable<ReportViewModel> GetProductsTotals()
+        {
+            List<ReportViewModel> list = new List<ReportViewModel>();
+            var auxList = Service.GetProductsTotals();
+            foreach (var item in auxList)
+            {
+                ReportViewModel vm = new ReportViewModel()
+                {
+                    CodigoProduct = item.CodigoProduct,
+                    Description = item.Description,
+                    TotalSale = item.TotalSale
+                };
+                list.Add(vm);
+            }
+            return list;
         }
 
         public void SetOne(SaleViewModel oneVM)

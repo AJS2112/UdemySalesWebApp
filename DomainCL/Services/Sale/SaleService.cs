@@ -4,15 +4,18 @@ using System.Text;
 using UdemySalesWebApp.Domain.Interfaces;
 using UdemySalesWebApp.Domain.Entities;
 using Domain.Repository;
+using UdemySalesWebApp.Domain.DTO;
 
 namespace UdemySalesWebApp.Domain.Services
 {
     public class SaleService : ISaleService
     {
         ISaleRepository Repository;
-        public SaleService(ISaleRepository repository)
+        ISaleProductsRepository SaleProductsRepository;
+        public SaleService(ISaleRepository repository, ISaleProductsRepository saleProductsRepository)
         {
             Repository = repository;
+            SaleProductsRepository = saleProductsRepository;
         }
         public void DelOne(int id)
         {
@@ -27,6 +30,11 @@ namespace UdemySalesWebApp.Domain.Services
         public Entities.Sale GetOne(int id)
         {
             return Repository.GetOne(id);
+        }
+
+        public IEnumerable<ReportViewModel> GetProductsTotals()
+        {
+            return SaleProductsRepository.GetProductsTotals();
         }
 
         public void SetOne(Entities.Sale one)

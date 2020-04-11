@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using UdemySalesWebApp.DAL;
 using UdemySalesWebApp.Helpers;
 using UdemySalesWebApp.Models;
 
@@ -12,12 +12,12 @@ namespace UdemySalesWebApp.Controllers
 {
     public class LoginController : Controller
     {
-        protected ApplicationDbContext mContext;
+        //protected ApplicationDbContext mContext;
         protected IHttpContextAccessor HttpContextAccessor;
-        
-        public LoginController(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        readonly IUserServiceApp ServiceApp;
+        public LoginController(IUserServiceApp serviceApp, IHttpContextAccessor httpContextAccessor)
         {
-            mContext = context;
+            ServiceApp = serviceApp;
             HttpContextAccessor = httpContextAccessor;
         }
         public IActionResult Index(int? logoff)
@@ -40,13 +40,15 @@ namespace UdemySalesWebApp.Controllers
             {
 
                 var pass = Cryptography.GetMD5Hash( model.Password);
-                var usuario = mContext.Users.Where(x => x.Email == model.Email && x.Password == pass).FirstOrDefault();
-                if (usuario == null)
+                bool login = ServiceApp.ValidateLogin(model.Email, pass);
+
+                if (!login)
                 {
                     ViewData["ErrorLogin"] = "User doesn't exist!!";
                     return View(model);
                 } else
                 {
+                    var usuario = ServiceApp.GetUserData(model.Email, pass);
                     HttpContextAccessor.HttpContext.Session.SetString(Session.USER_NAME, usuario.Name);
                     HttpContextAccessor.HttpContext.Session.SetString(Session.USER_EMAIL, usuario.Email);
                     HttpContextAccessor.HttpContext.Session.SetInt32(Session.USER_CODIGO, (int)usuario.Codigo);

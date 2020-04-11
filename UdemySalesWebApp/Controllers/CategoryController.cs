@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UdemySalesWebApp.DAL;
-using UdemySalesWebApp.Entities;
 using UdemySalesWebApp.Models;
 
 namespace UdemySalesWebApp.Controllers
@@ -14,7 +12,7 @@ namespace UdemySalesWebApp.Controllers
     public class CategoryController : Controller
     {
         readonly ICategoryServiceApp CategoryServiceApp;
-        public CategoryController(ICategoryServiceApp categoryServiceApp, ApplicationDbContext context)
+        public CategoryController(ICategoryServiceApp categoryServiceApp)
         {
             CategoryServiceApp = categoryServiceApp;
         }
