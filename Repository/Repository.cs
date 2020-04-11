@@ -19,7 +19,7 @@ namespace Repository
             Db = dbContext;
             DbSetContext = Db.Set<T>();
         }
-        public void DelOne(int id)
+        public virtual void DelOne(int id)
         {
             var ent = new T { Codigo = id };
             DbSetContext.Attach(ent);

@@ -1,4 +1,5 @@
 ﻿using Application.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,25 @@ namespace Application.Services
             }
 
             return listEntity;
+        }
+
+        public IEnumerable<SelectListItem> GetAllDropDownList()
+        {
+            List<SelectListItem> listItem = new List<SelectListItem>();
+            var list = this.GetAll();
+            foreach (var item in list)
+            {
+                SelectListItem one = new SelectListItem()
+                {
+                    Value = item.Codigo.ToString(),
+                    Text = item.Name
+                };
+
+                listItem.Add(one);
+
+            }
+
+            return listItem;
         }
 
         public ClientViewModel GetOne(int id)

@@ -47,11 +47,13 @@ namespace UdemySalesWebApp
             services.AddScoped<ICategoryServiceApp, CategoryServiceApp>();
             services.AddScoped<IClientServiceApp, ClientServiceApp>();
             services.AddScoped<IProductServiceApp, ProductServiceApp>();
+            services.AddScoped<ISaleServiceApp, SaleServiceApp>();
 
             //DOMAIN
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<ISaleService, SaleService>();
 
             //REPOSITORY
             services.AddDbContext<Repository.Context.ApplicationDbContext>(options =>
@@ -59,6 +61,7 @@ namespace UdemySalesWebApp
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ISaleRepository, SaleRepository>();
 
 
 

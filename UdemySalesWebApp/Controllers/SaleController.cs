@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using UdemySalesWebApp.DAL;
 using UdemySalesWebApp.Entities;
 using UdemySalesWebApp.Models;
@@ -14,107 +14,50 @@ namespace UdemySalesWebApp.Controllers
 {
     public class SaleController : Controller
     {
-        protected ApplicationDbContext mContext;
+        readonly ISaleServiceApp ServiceApp;
+        readonly IProductServiceApp ProductServiceApp;
+        readonly IClientServiceApp ClientServiceApp;
 
-        public SaleController(ApplicationDbContext context)
+
+        public SaleController(
+            ISaleServiceApp serviceApp,
+            IProductServiceApp productServiceApp,
+            IClientServiceApp clientServiceApp)
         {
-            mContext = context;
-        }
-
-        private IEnumerable<SelectListItem> ClientList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem()
-            {
-                Value = string.Empty,
-                Text = string.Empty
-            });
-
-            foreach (var item in mContext.Client.ToList())
-            {
-                list.Add(new SelectListItem()
-                {
-                    Value = item.Codigo.ToString(),
-                    Text = item.Name.ToString()
-                });
-            }
-
-            return list;
-        }
-
-        private IEnumerable<SelectListItem> ProductList()
-        {
-            List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem()
-            {
-                Value = string.Empty,
-                Text = string.Empty
-            });
-
-            foreach (var item in mContext.Product.ToList())
-            {
-                list.Add(new SelectListItem()
-                {
-                    Value = item.Codigo.ToString(),
-                    Text = item.Description.ToString()
-                });
-            }
-
-            return list;
+            ServiceApp = serviceApp;
+            ProductServiceApp = productServiceApp;
+            ClientServiceApp = clientServiceApp;
         }
         public IActionResult Index()
         {
-            IEnumerable<Sale> list = mContext.Sale.ToList();
-            mContext.Dispose();
-
-            return View(list);
+            return View(ServiceApp.GetAll());
         }
-
         [HttpGet]
         public IActionResult Registry(int? id)
         {
             SaleViewModel viewModel = new SaleViewModel();
-            viewModel.ClientList = ClientList();
-            viewModel.ProductList = ProductList();
-
             if (id != null)
             {
-                var entity = mContext.Sale.Where(x => x.Codigo == id).FirstOrDefault();
-                viewModel.Codigo = entity.Codigo;
-                viewModel.Date = entity.Date;
-                viewModel.CodigoClient = entity.CodigoClient;
-                viewModel.Total = entity.Total;
+                viewModel = ServiceApp.GetOne((int)id);
             }
+
+            viewModel.ClientList = ClientServiceApp.GetAllDropDownList();
+            viewModel.ProductList = ProductServiceApp.GetAllDropDownList();
+
             return View(viewModel);
         }
+
         [HttpPost]
         public IActionResult Registry(SaleViewModel entity)
         {
             if (ModelState.IsValid)
             {
-                Sale objSale = new Sale()
-                {
-                    Codigo = entity.Codigo,
-                    Date = (DateTime)entity.Date,
-                    CodigoClient = (int)entity.CodigoClient,
-                    Total = (decimal)entity.Total,
-                    Products = JsonConvert.DeserializeObject<ICollection<SaleProducts>>(entity.JsonProducts)
-                };
-
-                if (entity.Codigo == null)
-                {
-                    mContext.Sale.Add(objSale);
-                }
-                else
-                {
-                    mContext.Entry(objSale).State = EntityState.Modified;
-                }
-                mContext.SaveChanges();
+                ServiceApp.SetOne(entity);
             }
             else
             {
-                entity.ClientList = ClientList();
-                entity.ProductList = ProductList();
+                entity.ClientList = ClientServiceApp.GetAllDropDownList();
+                entity.ProductList = ProductServiceApp.GetAllDropDownList();
 
                 return View(entity);
             }
@@ -124,19 +67,14 @@ namespace UdemySalesWebApp.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var ent = new Sale() { Codigo = id };
-            mContext.Attach(ent);
-            mContext.Remove(ent);
-            mContext.SaveChanges();
+            ServiceApp.DelOne(id);
             return RedirectToAction("Index");
         }
 
         [HttpGet("ReadProductPrice/{CodigoProduct}")]
-        public decimal ReadProductPrice(int CodigoProduct)
+        public decimal ReadProductPrice(int codigoProduct)
         {
-            return mContext.Product.Where(x => x.Codigo == CodigoProduct)
-                                    .Select(x => x.Price)
-                                    .FirstOrDefault();
+            return (decimal)ProductServiceApp.GetOne(codigoProduct).Price;
         }
     }
 }

@@ -7,15 +7,13 @@ using UdemySalesWebApp.Models;
 
 namespace Application.Services.Interfaces
 {
-    public interface IClientServiceApp
+    public interface ISaleServiceApp
     {
-        IEnumerable<SelectListItem> GetAllDropDownList();
+        IEnumerable<SaleViewModel> GetAll();
 
-        IEnumerable<ClientViewModel> GetAll();
+        SaleViewModel GetOne(int id);
 
-        ClientViewModel GetOne(int id);
-
-        void SetOne(ClientViewModel one);
+        void SetOne(SaleViewModel one);
 
         void DelOne(int id);
     }
